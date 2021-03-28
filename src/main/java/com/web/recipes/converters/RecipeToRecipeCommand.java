@@ -1,7 +1,6 @@
 package com.web.recipes.converters;
 
 import com.web.recipes.commands.RecipeCommand;
-import com.web.recipes.domain.Category;
 import com.web.recipes.domain.Recipe;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -48,7 +47,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
 
         if (source.getCategories() != null && source.getCategories().size() > 0) {
             source.getCategories()
-                    .forEach((Category category) -> command.getCategories().add(categoryConverter.convert(category)));
+                    .forEach(category -> command.getCategories().add(categoryConverter.convert(category)));
         }
 
         if (source.getIngredients() != null && source.getIngredients().size() > 0) {

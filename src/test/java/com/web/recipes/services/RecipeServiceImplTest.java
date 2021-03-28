@@ -1,5 +1,6 @@
 package com.web.recipes.services;
 
+import com.web.recipes.commands.RecipeCommand;
 import com.web.recipes.converters.RecipeCommandToRecipe;
 import com.web.recipes.converters.RecipeToRecipeCommand;
 import com.web.recipes.domain.Recipe;
@@ -28,6 +29,8 @@ class RecipeServiceImplTest {
     @Mock
     RecipeCommandToRecipe recipeCommandToRecipe;
 
+    private final Long ID = 1L;
+
 
     @BeforeEach
     void setUp() {
@@ -38,12 +41,12 @@ class RecipeServiceImplTest {
     @Test
     public void getRecipeByIdTest() throws Exception {
         Recipe recipe = new Recipe();
-        recipe.setId(1L);
+        recipe.setId(ID);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
 
-        Recipe recipeReturned = recipeService.findById(1L);
+        Recipe recipeReturned = recipeService.findById(ID);
 
         assertNotNull(recipeReturned);
         verify(recipeRepository, times(1)).findById(anyLong());
@@ -51,7 +54,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipes() {
+    void getRecipesTest() {
         Recipe recipe = new Recipe();
         Set<Recipe> recipeSet = new HashSet<>();
         recipeSet.add(recipe);
@@ -62,5 +65,31 @@ class RecipeServiceImplTest {
 
         assertEquals(1, recipes.size());
         verify(recipeRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void getRecipeCommandByIdTest() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(ID);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(ID);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+        RecipeCommand commandById = recipeService.findCommandById(1L);
+
+        assertNotNull(commandById);
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    void deleteByIdTest() {
+        recipeService.deleteById(ID);
+        verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 }
