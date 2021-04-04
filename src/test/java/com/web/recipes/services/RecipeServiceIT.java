@@ -28,7 +28,7 @@ public class RecipeServiceIT {
 
     @Autowired
     RecipeRepository recipeRepository;
-    
+
 
     @Autowired
     RecipeToRecipeCommand recipeToRecipeCommand;
