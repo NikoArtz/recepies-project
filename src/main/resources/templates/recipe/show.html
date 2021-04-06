@@ -16,14 +16,23 @@
             <div class="pannel-group">
                 <div class="panel panel-primary">
                     <div class="panel-heading; text-center">
-                        <h1 class="panel-title; jumbotron" th:text="${recipe.description}">Recipe Description Here!</h1>
+                        <div class="row; jumbotron">
+                            <div class="col-md-3">
+                                <h1 class="panel-title" th:text="${recipe.description}">Recipe Description Here!</h1>
+                            </div>
+
+                            <div class="col-md-1">
+                                <a class="btn btn-default" href="#"
+                                   th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change Image</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="row; jumbotron">
                             <div class="col-md-3">
                                 <h5>Categories:</h5>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-3">
                                 <ul>
                                     <li th:remove="all">cat one</li>
                                     <li th:remove="all">cat two</li>
@@ -31,6 +40,11 @@
                                         th:text="${category.getDescription()}">cat three
                                     </li>
                                 </ul>
+                            </div>
+                            <div class="col-md-5">
+                                <img src="../../static/images/guacamole400x400WithX.jpg"
+                                     th:src="@{'/recipe/' + ${recipe.id} + '/recipe-image'}"
+                                     width="200" height="200">
                             </div>
                         </div>
                         <div class="jumbotron">
