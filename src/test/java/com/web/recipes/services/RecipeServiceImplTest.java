@@ -4,6 +4,7 @@ import com.web.recipes.commands.RecipeCommand;
 import com.web.recipes.converters.RecipeCommandToRecipe;
 import com.web.recipes.converters.RecipeToRecipeCommand;
 import com.web.recipes.domain.Recipe;
+import com.web.recipes.exceptions.BadRequestException;
 import com.web.recipes.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,4 +93,17 @@ class RecipeServiceImplTest {
         recipeService.deleteById(ID);
         verify(recipeRepository, times(1)).deleteById(anyLong());
     }
+
+
+    @Test()
+    public void getRecipeByIdTestNotFound() throws Exception {
+        assertThrows(BadRequestException.class,
+                () -> {
+                    Optional<Recipe> recipeOptional = Optional.empty();
+                    when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+                    recipeService.findById(1L);
+                });
+
+    }
+    
 }

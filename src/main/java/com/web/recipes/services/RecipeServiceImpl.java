@@ -4,8 +4,10 @@ import com.web.recipes.commands.RecipeCommand;
 import com.web.recipes.converters.RecipeCommandToRecipe;
 import com.web.recipes.converters.RecipeToRecipeCommand;
 import com.web.recipes.domain.Recipe;
+import com.web.recipes.exceptions.BadRequestException;
 import com.web.recipes.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long id) {
         Optional<Recipe> optional = recipeRepository.findById(id);
         if (!optional.isPresent()) {
-            throw new RuntimeException("Recipe is not present");
+            throw new BadRequestException(HttpStatus.NOT_FOUND, "Recipe is not present for ID value " + id);
         }
         return optional.get();
     }

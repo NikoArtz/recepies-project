@@ -2,12 +2,14 @@ package com.web.recipes.controllers;
 
 import com.web.recipes.commands.RecipeCommand;
 import com.web.recipes.domain.Recipe;
+import com.web.recipes.exceptions.BadRequestException;
 import com.web.recipes.services.RecipeService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -96,5 +98,27 @@ class RecipeControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
         verify(recipeService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+
+        when(recipeService.findById(anyLong())).thenThrow(new BadRequestException(HttpStatus.NOT_FOUND));
+
+        mockMvc.perform(get("/recipe/5/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("bad-request"));
+
+    }
+
+    @Test
+    public void testGetRecipeBadRequest() throws Exception {
+
+        when(recipeService.findById(anyLong())).thenThrow(new BadRequestException(HttpStatus.BAD_REQUEST));
+
+        mockMvc.perform(get("/recipe/asdf/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("bad-request"));
+
     }
 }
