@@ -26,7 +26,7 @@ public class RecipeCommandToRecipeTest {
     public static final Difficulty DIFFICULTY = Difficulty.EASY;
     public static final Integer SERVINGS = 3;
     public static final String SOURCE = "Source";
-    public static final String URL = "Some URL";
+    public static final String URL = "test.com";
     public static final Long CAT_ID_1 = 1L;
     public static final Long CAT_ID2 = 2L;
     public static final Long INGRED_ID_1 = 3L;
