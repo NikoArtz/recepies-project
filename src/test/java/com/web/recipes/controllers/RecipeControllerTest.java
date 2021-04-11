@@ -38,7 +38,9 @@ class RecipeControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         controller = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -113,8 +115,6 @@ class RecipeControllerTest {
 
     @Test
     public void testGetRecipeBadRequest() throws Exception {
-
-        when(recipeService.findById(anyLong())).thenThrow(new BadRequestException(HttpStatus.BAD_REQUEST));
 
         mockMvc.perform(get("/recipe/asdf/show"))
                 .andExpect(status().isBadRequest())
