@@ -23,7 +23,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label>Recipe Description:</label>
+                                    <label th:text="#{recipe.description}">Recipe Description d:</label>
                                     <input type="text" class="form-control" th:field="*{description}" th:class="${#fields.hasErrors('description')}
                                 ? 'form-control is-invalid' : 'form-control'"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('description')}">
